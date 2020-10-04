@@ -45,4 +45,12 @@ public class ContaControllerTest {
                 .andExpect(jsonPath("$.id").isNotEmpty())
                 .andExpect(jsonPath("$.dataCriacao").isNotEmpty());
     }
+
+    @Test
+    public void testCriarContaVazia() throws Exception {
+        this.mockMvc
+                .perform(post("/v1/conta"))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
 }

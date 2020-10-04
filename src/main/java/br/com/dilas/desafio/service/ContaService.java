@@ -1,6 +1,8 @@
 package br.com.dilas.desafio.service;
 
 import br.com.dilas.desafio.controller.dto.TransacaoDTO;
+import br.com.dilas.desafio.exception.ContaBloqueadaException;
+import br.com.dilas.desafio.exception.ContaNaoEncontradaException;
 import br.com.dilas.desafio.model.*;
 import br.com.dilas.desafio.repository.ContaRepository;
 import br.com.dilas.desafio.repository.PessoaRepository;
@@ -137,12 +139,12 @@ public class ContaService {
         Optional<Conta> contaLocalizada = contaRepository.findById(idConta);
 
         if (contaLocalizada.isEmpty()) {
-            // TODO lançar exceção ContaNaoEncontradaException para dizer que a conta não foi localizada
+            throw new ContaNaoEncontradaException("Conta não encontrada");
         } else {
             Conta conta = contaLocalizada.get();
 
             if (!conta.isFlagAtivo()) {
-                // TODO lançar exceção ContaBloqueadaException
+                throw new ContaBloqueadaException("Conta encontra-se bloqueada");
             }
         }
 
